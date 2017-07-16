@@ -18,3 +18,5 @@ Check out [TodoMVC](http://todomvc.com/) app implemetation with Lingu [here](htt
 ## handlers
 
 ## evaluators
+
+# Extending the language
