@@ -1,11 +1,9 @@
 # Lingu
 
-Lingu is a progamming language framework that allows developers to create programming languages
-that are dealing only with domain absractions and not implementation details of said
-abstractions.
+Lingu is extesible programming language that is operating with domain absractions and not their implementation details.
 
-This technology is wip and exploring ideas similar to concept programming
-and intentional programming.
+This technology is wip and exploring ideas similar to [concept programming](https://en.wikipedia.org/wiki/Concept_programming)
+and (intentional programming)[https://en.wikipedia.org/wiki/Intentional_programming].
 
 # Example usage
 
