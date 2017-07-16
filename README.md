@@ -9,7 +9,7 @@ and intentional programming.
 
 # Example usage
 
-Check out [TodoMVC](http://todomvc.com/) app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
+Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
 
 # Language components
 
