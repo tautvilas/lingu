@@ -15,8 +15,39 @@ Check out [TodoMVC](http://todomvc.com/) app implemetation with Lingu [here](htt
 
 ## plugins
 
+### context
+### add
+### set
+### remove
+### update
+### clear
+### focus
+### show
+### hide
+### if
+### else
+### with
+### changeValue
+### log
+
 ## handlers
 
+### firstRun
+### change
+### click
+### blur
+### missClick
+### doubleClick
+### keyUp
+### escape
+### enter
+
 ## evaluators
+
+### from
+### empty
+### is
+### has
+### not
 
 # Extending the language
