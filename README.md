@@ -7,7 +7,7 @@ abstractions.
 This technology is wip and exploring ideas similar to concept programming
 and intentional programming.
 
-# Exaple usage
+# Example usage
 
 Check out [TodoMVC](http://todomvc.com/) app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
 
