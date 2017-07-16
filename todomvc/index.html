@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <title>TODO MVC with Lingu</title>
+    <script src="../lib/react.js" charset="utf-8"></script>
+    <script src="../lib/react-dom.js" charset="utf-8"></script>
+    <script src="../lib/babel.min.js" charset="utf-8"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="app.css">
+
+    <script type="text/babel" charset="utf-8" src="view.js"></script>
+    <script type="text/lingu" src="prog.lgu"></script>
+
+    <script type="text/javascript">var module = {};</script>
+    <script type="text/javascript" src="../src/framework.js"></script>
+    <script type="text/javascript" src="../src/plugins.js"></script>
+    <script type="text/javascript" src="../src/evaluators.js"></script>
+    <script type="text/javascript" src="../src/handlers.js"></script>
+    <script type="text/babel" src="../src/lingu-react.js"></script>
+
+    <script type="text/babel">
+      Lingu.methods.init(() => {
+        console.log('RENDER');
+        ReactDOM.render(
+          (<div>{Lingu.react.render('app', TodoApp)}</div>),
+          document.getElementById('root')
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <div id='root'></div>
+  </body>
+</html>

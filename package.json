@@ -1,0 +1,17 @@
+{
+  "name": "lingu",
+  "version": "0.0.1",
+  "description": "meta-programming language",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "*",
+    "eslint-plugin-react": "^7.1.0",
+    "mocha": "*"
+  },
+  "scripts": {
+    "lint": "eslint src/*.js todomvc/*.js || true",
+    "test": "mocha src/*.spec.js"
+  },
+  "author": "Tautvilas <mecinskas@gmail.com>",
+  "license": "MPL-2.0"
+}
