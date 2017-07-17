@@ -11,7 +11,7 @@ Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvil
 
 # Language components
 
-## plugins
+## Plugins
 
 ### context
 ### add
@@ -28,7 +28,7 @@ Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvil
 ### changeValue
 ### log
 
-## handlers
+## Handlers
 
 ### firstRun
 
@@ -68,7 +68,7 @@ triggered on escape key in input
 
 triggered on enter key in input
 
-## evaluators
+## Evaluators
 
 ### from [*selector*]
 
