@@ -9,6 +9,17 @@ and [intentional programming](https://en.wikipedia.org/wiki/Intentional_programm
 
 Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
 
+# Lingu in nutshell
+
+Lingu sentences are divided into these categories:
+
+1. Data structure definitions
+2. Action sentences
+3. Query definitions
+4. Translations
+
+Each action sentence is constructed out of words. Each word is either plugin, handler, evaluator, value, query or selector.
+
 # Language components
 
 ## Plugins
