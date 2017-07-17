@@ -9,38 +9,76 @@ and [intentional programming](https://en.wikipedia.org/wiki/Intentional_programm
 
 Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
 
+# Lingu in nutshell
+
+Lingu sentences are divided into these categories:
+
+1. Data structure definitions
+2. Action sentences
+3. Query definitions
+4. Translations
+
+Each action sentence is constructed out of words. Each word is either plugin, handler, evaluator, value, query, selector or datatype.
+
 # Language components
 
-## plugins
+## Plugins
 
-### context
-### add
-### set
-### remove
-### update
-### clear
-### focus
-### show
-### hide
-### if
-### else
-### with
-### changeValue
-### log
+### context [*query*]
+### on [*handler* ,*handler* ,]
+### add [*datatype*]
+### with [*datatype* *value*]
+### remove [*query*]
+### update [*query*]
+### set [*datatype* *value*]
+### clear [*selector*]
+### focus [*selector*]
+### show [*selector*]
+### hide [*selector*]
+### if [*value*] . 
+### else .
+### changeValue [*selector* *query*]
+### log [*value*]
 
-## handlers
+## Handlers
 
 ### firstRun
-### change
-### click
-### blur
-### missClick
-### doubleClick
-### keyUp
-### escape
-### enter
 
-## evaluators
+triggered on first run of the app
+
+### change [*datatype*]
+
+triggered when change in data is detected
+
+### click [*selector*]
+
+triggered on element click
+
+### blur [*selector*]
+
+triggered on input element blur
+
+### missClick [*selector*]
+
+triggerred when click happens outside element
+
+### doubleClick [*selector*]
+
+triggered on element double click
+
+### keyUp [*selector*]
+
+triggered on keyUp in input
+
+### escape [*selector*]
+
+triggered on escape key in input
+
+### enter [*selector*]
+
+triggered on enter key in input
+
+## Evaluators
 
 ### from [*selector*]
 
