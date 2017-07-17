@@ -31,14 +31,42 @@ Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvil
 ## handlers
 
 ### firstRun
-### change
-### click
-### blur
-### missClick
-### doubleClick
-### keyUp
-### escape
-### enter
+
+triggered on first run of the app
+
+### change [*query*]
+
+triggered when change in data is detected
+
+current implementation is limited: only top-level change detection supported
+
+### click [*selector*]
+
+triggered on element click
+
+### blur [*selector*]
+
+triggered on input element blur
+
+### missClick [*selector*]
+
+triggerred when click happens outside element
+
+### doubleClick [*selector*]
+
+triggered on element double click
+
+### keyUp [*selector*]
+
+triggered on keyUp in input
+
+### escape [*selector*]
+
+triggered on escape key in input
+
+### enter [*selector*]
+
+triggered on enter key in input
 
 ## evaluators
 
