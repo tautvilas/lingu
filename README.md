@@ -42,10 +42,24 @@ Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvil
 
 ## evaluators
 
-### from
-### empty
-### is
-### has
-### not
+### from *selector*
+
+returns value from selected elements
+
+### empty *selector*
+
+evaluates to true if selected elements have empty value, otherwise evaluates to false
+
+### is *query* *value*
+
+evaluates to true if *query* returns items that equal *value*, otherwise evaluates to false
+
+### has *query*
+
+evaluates to true if *query* returns any items, otherwise evaluates to false
+
+### not *value*
+
+evalutes to true if *value* is false, otherwise evaluates to false
 
 # Extending the language
