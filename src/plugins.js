@@ -73,12 +73,12 @@ Lingu.plugins.add = (words) => {
   };
 };
 
-Lingu.plugins.clear = (words) => {
-  const selector = words[0];
-  Lingu.methods.getElementsByClassName(selector).forEach((el) => {
+Lingu.plugins.clear = (words, parseState) => {
+  const {elements, cursor} = Lingu.methods.parseSelector(words, parseState.event.target);
+  (elements).forEach((el) => {
     el.value = '';
   });
-  return Lingu.methods.responseObject(1);
+  return Lingu.methods.responseObject(cursor);
 };
 
 Lingu.plugins.focus = (words, parseState) => {
