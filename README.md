@@ -18,26 +18,27 @@ Lingu sentences are divided into these categories:
 3. Query definitions
 4. Translations
 
-Each action sentence is constructed out of words. Each word is either plugin, handler, evaluator, value, query or selector.
+Each action sentence is constructed out of words. Each word is either plugin, handler, evaluator, value, query, selector or datatype.
 
 # Language components
 
 ## Plugins
 
-### context
-### add
-### set
-### remove
-### update
-### clear
-### focus
-### show
-### hide
-### if
-### else
-### with
-### changeValue
-### log
+### context [*query*]
+### on [*handler* ,*handler* ,]
+### add [*datatype*]
+### with [*datatype* *value*]
+### remove [*query*]
+### update [*query*]
+### set [*datatype* *value*]
+### clear [*selector*]
+### focus [*selector*]
+### show [*selector*]
+### hide [*selector*]
+### if [*value*] . 
+### else .
+### changeValue [*selector* *query*]
+### log [*value*]
 
 ## Handlers
 
@@ -45,11 +46,9 @@ Each action sentence is constructed out of words. Each word is either plugin, ha
 
 triggered on first run of the app
 
-### change [*query*]
+### change [*datatype*]
 
 triggered when change in data is detected
-
-current implementation is limited: only top-level change detection supported
 
 ### click [*selector*]
 
