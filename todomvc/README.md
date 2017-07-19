@@ -1,6 +1,8 @@
 # [TodoMVC](http://todomvc.com/) implementation with [Lingu](https://github.com/tautvilas/lingu)
 
-Check out live demo of the app.
+The idea of Lingu programming language is to separate pure domain logic from implementation details and make program code as clear and simple as possible. If there is something that programmer lacks in default language syntax set he can easily can extend the language with his own syntactic constructs.
+
+Check out [live demo](https://tautvilas.github.io/lingu/todomvc/) of the app.
 
 ## Domain logic code
 
@@ -82,7 +84,7 @@ on change item
 ~status.completed Completed
 ```
 
-## View code
+## Presentation code
 
 ```javascript
 function TodoApp(props) {
