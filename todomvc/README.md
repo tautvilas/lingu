@@ -1,5 +1,7 @@
 # [TodoMVC](http://todomvc.com/) implementation with [Lingu](https://github.com/tautvilas/lingu)
 
+## Domain logic code
+
 ```
 #app item statusFilter statusType
 #item title status
@@ -77,6 +79,8 @@ on change item
 ~status.active Active
 ~status.completed Completed
 ```
+
+## View code
 
 ```javascript
 function TodoApp(props) {
