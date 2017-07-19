@@ -9,7 +9,7 @@ and [intentional programming](https://en.wikipedia.org/wiki/Intentional_programm
 
 Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
 
-# Lingu in nutshell
+# Lingu in a nutshell
 
 Lingu sentences are divided into these categories:
 
