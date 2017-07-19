@@ -35,7 +35,7 @@ on doubleClick itemText
 on escape editField
   hide editField for selected
   show view for selected
-  changeValue editField for selected selectedTitle
+  setInputValue editField for selected valueOf selectedTitle
 
 on enter editField , blur editField ,
   hide editField for selected

@@ -174,14 +174,14 @@ Lingu.plugins.with = (words, parseState) => {
   };
 };
 
-Lingu.plugins.changeValue = (words, parseState) => {
+Lingu.plugins.setInputValue = (words, parseState) => {
   const {cursor, elements} = Lingu.methods.parseSelector(words, parseState.event.target);
-  const data = Lingu.methods.parseQuery(words[cursor], parseState.event.target);
-  elements.forEach(el => {
-    el.value = data;
+  const data = Lingu.methods.evalExpression(words.slice(cursor), parseState);
+  elements.forEach((el, i) => {
+    el.value = data.value;
   });
   return {
-    cursor: cursor + 1
+    cursor: cursor + data.cursor
   };
 };
 

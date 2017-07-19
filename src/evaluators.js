@@ -46,3 +46,11 @@ Lingu.evaluators.not = (...args) => {
   return result;
 };
 
+Lingu.evaluators.valueOf = (words, parseState) => {
+  const objs = Lingu.methods.parseQuery(words[0], parseState.event.target);
+  return {
+    cursor: 1,
+    value: objs.join('')
+  }
+};
+
