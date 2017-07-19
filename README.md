@@ -39,7 +39,7 @@ Each action sentence is constructed out of words. Each word is either plugin, ha
 ### hide [*selector*]
 ### if [*value*] . 
 ### else .
-### changeValue [*selector* *value*]
+### setInputValue [*selector* *value*]
 ### log [*value*]
 
 ## Handlers
@@ -118,5 +118,9 @@ evaluates to true if *query* returns any items, otherwise evaluates to false
 ### not [*value*]
 
 evalutes to true if *value* is false, otherwise evaluates to false
+
+### valueOf [*query*]
+
+converts *query* result to value
 
 # Extending the language
