@@ -128,3 +128,5 @@ evalutes to true if *value* is false, otherwise evaluates to false
 converts *query* result to value
 
 # Extending the language
+
+You can extend language by adding your own custom plugins, evaluators and handlers to `Lingu.plugins`, `Lingu.evaluators` and `Lingu.handlers`.
