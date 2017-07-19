@@ -1,4 +1,4 @@
-# [TodoMVC](http://todomvc.com/) implementation with [Lingu](https://github.com/tautvilas/lingu)
+# TodoMVC implementation with [Lingu](https://github.com/tautvilas/lingu)
 
 The idea of Lingu programming language is to separate pure domain logic from implementation details and make program code as clear and simple as possible. If there is something that programmer lacks in default language syntax set he can easily can extend the language with his own syntactic constructs.
 
