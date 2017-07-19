@@ -1,5 +1,7 @@
 # [TodoMVC](http://todomvc.com/) implementation with [Lingu](https://github.com/tautvilas/lingu)
 
+Check out live demo of the app.
+
 ## Domain logic code
 
 ```
