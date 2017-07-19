@@ -29,7 +29,7 @@ Lingu.plugins.set = (words, parseState, appState) => {
     mutateState: s => {
       parseState.updateTo.forEach(d => {
         const target = s[d._type][d._id];
-        target[prop] = [evaluation.value];
+        target[prop] = evaluation.value;
         s[d._type][d._id] = Object.assign({}, target); // trigger change handlers
       });
     }
@@ -145,8 +145,11 @@ Lingu.plugins.else = (words, parseState) => {
 
 Lingu.plugins.if = (words, parseState, appState) => {
   const result = Lingu.methods.evalExpression(words, parseState, appState);
-  const resultParseState = Object.assign({}, result.parseState, {ifValue: result.value});
-  if (result.value === true) {
+  const resultValue = result.value.reduce((prev, next) => {
+    return prev && next;
+  }, true);
+  const resultParseState = Object.assign({}, result.parseState, {ifValue: resultValue});
+  if (resultValue) {
     return {
       cursor: result.cursor,
       parseState: resultParseState
@@ -169,7 +172,7 @@ Lingu.plugins.with = (words, parseState) => {
     cursor: 1 + valueResult.cursor,
     parseState: {},
     mutateState: s => {
-      s[construct.type][construct.id][prop] = [valueResult.value];
+      s[construct.type][construct.id][prop] = valueResult.value;
     }
   };
 };
@@ -178,7 +181,7 @@ Lingu.plugins.setInputValue = (words, parseState) => {
   const {cursor, elements} = Lingu.methods.parseSelector(words, parseState.event.target);
   const data = Lingu.methods.evalExpression(words.slice(cursor), parseState);
   elements.forEach((el, i) => {
-    el.value = data.value;
+    el.value = data.value[i];
   });
   return {
     cursor: cursor + data.cursor

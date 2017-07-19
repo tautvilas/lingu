@@ -1,8 +1,8 @@
 Lingu.evaluators.from = (words, parseState) => {
   const {elements, cursor} = Lingu.methods.parseSelector(words, parseState.event.target);
-  const value = elements.reduce((prev, next) => {
-    return (prev + (next.value || next.getAttribute('data-value'))).trim();
-  }, '');
+  const value = elements.map(element => {
+    return (element.value || element.getAttribute('data-value')).trim();
+  });
   return {
     cursor,
     value: value
@@ -11,9 +11,9 @@ Lingu.evaluators.from = (words, parseState) => {
 
 Lingu.evaluators.empty = (words, parseState) => {
   const {elements, cursor} = Lingu.methods.parseSelector(words, parseState.event.target);
-  const isEmpty = elements.reduce((prev, next) => {
-    return (next.value.trim() === '') && prev;
-  }, true);
+  const isEmpty = elements.map(element => {
+    return element.value.trim() === '';
+  });
   return {
     cursor,
     value: isEmpty
@@ -22,12 +22,12 @@ Lingu.evaluators.empty = (words, parseState) => {
 
 Lingu.evaluators.is = (words, parseState) => {
   const comp1 = Lingu.methods.parseQuery(words[0], parseState.event.target);
-  const comp2 = words[1];
-  const result = comp1.reduce((prev, next) => {
-    return prev && next === comp2;
-  }, true);
+  const comp2 = Lingu.methods.evalExpression(words.slice(1));
+  const result = comp1.map(next => {
+    return next === comp2.value[0];
+  });
   return {
-    cursor: 2,
+    cursor: 1 + comp2.cursor,
     value: result
   };
 };
@@ -36,13 +36,17 @@ Lingu.evaluators.has = (words, parseState) => {
   const objs = Lingu.methods.parseQuery(words[0], parseState.event.target);
   return {
     cursor: 1,
-    value: objs.length !== 0
+    value: [objs.length !== 0]
   };
 };
 
 Lingu.evaluators.not = (...args) => {
   const result = Lingu.methods.evalExpression(...args);
-  result.value = !result.value;
+  const newValues = [];
+  result.value.forEach(v => {
+    newValues.push(!v);
+  });
+  result.value = newValues;
   return result;
 };
 
@@ -50,7 +54,7 @@ Lingu.evaluators.valueOf = (words, parseState) => {
   const objs = Lingu.methods.parseQuery(words[0], parseState.event.target);
   return {
     cursor: 1,
-    value: objs.join('')
-  }
+    value: objs
+  };
 };
 

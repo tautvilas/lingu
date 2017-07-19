@@ -277,7 +277,7 @@ Lingu.methods.evalExpression = (words, parseState, appState) => {
   } else {
     const translation = Lingu.translations[words[0]];
     return {
-      value: translation || words[0],
+      value: [translation || words[0]],
       cursor: 1
     };
   }
