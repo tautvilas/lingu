@@ -20,6 +20,10 @@ Lingu sentences are divided into these categories:
 
 Each action sentence is constructed out of words. Each word is either plugin, handler, evaluator, value, query, selector or datatype.
 
+## Authors
+
+* [Tautvilas Mecinskas](https://github.com/tautvilas/) [@tautvilas](https://twitter.com/TautviIas)
+
 # Language components
 
 ## Plugins
