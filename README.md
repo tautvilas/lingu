@@ -37,7 +37,7 @@ Each action sentence is constructed out of words. Each word is either plugin, ha
 ### hide [*selector*]
 ### if [*value*] . 
 ### else .
-### changeValue [*selector* *query*]
+### changeValue [*selector* *value*]
 ### log [*value*]
 
 ## Handlers
