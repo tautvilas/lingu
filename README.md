@@ -2,14 +2,14 @@
 
 Lingu is extesible programming language that is operating with domain absractions and not their implementation details.
 
-This technology is wip and exploring ideas similar to [concept programming](https://en.wikipedia.org/wiki/Concept_programming)
+This technology is WIP and exploring ideas similar to [concept programming](https://en.wikipedia.org/wiki/Concept_programming)
 and [intentional programming](https://en.wikipedia.org/wiki/Intentional_programming).
 
 # Example usage
 
 Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
 
-# Lingu in nutshell
+# Lingu in a nutshell
 
 Lingu sentences are divided into these categories:
 
@@ -20,9 +20,15 @@ Lingu sentences are divided into these categories:
 
 Each action sentence is constructed out of words. Each word is either plugin, handler, evaluator, value, query, selector or datatype.
 
+## Authors
+
+* [Tautvilas Mecinskas](https://github.com/tautvilas/) [@tautvilas](https://twitter.com/TautviIas)
+
 # Language components
 
 ## Plugins
+
+```(words, parseState, appState) => ({mutateState: (s) => s, parseState, cursor})```
 
 ### context [*query*]
 ### on [*handler* ,*handler* ,]
@@ -37,10 +43,25 @@ Each action sentence is constructed out of words. Each word is either plugin, ha
 ### hide [*selector*]
 ### if [*value*] . 
 ### else .
-### changeValue [*selector* *value*]
+### setInputValue [*selector* *value*]
 ### log [*value*]
 
 ## Handlers
+
+```
+Lingu.handlers.keyUp = (words) => {
+  Lingu.domEventHandlers.push({
+    selector: words[0],
+    handler: (event) => {
+      const parseState = {
+        event: event
+      };
+      Lingu.methods.parseActionLine(words.slice(1), parseState);
+    },
+    event: 'keyup'
+  });
+};
+```
 
 ### firstRun
 
@@ -80,6 +101,8 @@ triggered on enter key in input
 
 ## Evaluators
 
+```(words, parseState, appState) => ({value: [], parseState, cursor})```
+
 ### from [*selector*]
 
 returns value from selected elements
@@ -99,5 +122,9 @@ evaluates to true if *query* returns any items, otherwise evaluates to false
 ### not [*value*]
 
 evalutes to true if *value* is false, otherwise evaluates to false
+
+### valueOf [*query*]
+
+converts *query* result to value
 
 # Extending the language

@@ -1,5 +1,9 @@
 # [TodoMVC](http://todomvc.com/) implementation with [Lingu](https://github.com/tautvilas/lingu)
 
+Check out live demo of the app.
+
+## Domain logic code
+
 ```
 #app item statusFilter statusType
 #item title status
@@ -38,7 +42,7 @@ on doubleClick itemText
 on escape editField
   hide editField for selected
   show view for selected
-  changeValue editField for selected selectedTitle
+  setInputValue editField for selected valueOf selectedTitle
 
 on enter editField , blur editField ,
   hide editField for selected
@@ -77,6 +81,8 @@ on change item
 ~status.active Active
 ~status.completed Completed
 ```
+
+## View code
 
 ```javascript
 function TodoApp(props) {
