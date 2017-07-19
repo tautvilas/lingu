@@ -24,6 +24,8 @@ Each action sentence is constructed out of words. Each word is either plugin, ha
 
 ## Plugins
 
+```(words, parseState, appState) => ({mutateState: (s) => s, parseState, cursor})```
+
 ### context [*query*]
 ### on [*handler* ,*handler* ,]
 ### add [*datatype*]
@@ -41,6 +43,21 @@ Each action sentence is constructed out of words. Each word is either plugin, ha
 ### log [*value*]
 
 ## Handlers
+
+```
+Lingu.handlers.keyUp = (words) => {
+  Lingu.domEventHandlers.push({
+    selector: words[0],
+    handler: (event) => {
+      const parseState = {
+        event: event
+      };
+      Lingu.methods.parseActionLine(words.slice(1), parseState);
+    },
+    event: 'keyup'
+  });
+};
+```
 
 ### firstRun
 
@@ -79,6 +96,8 @@ triggered on escape key in input
 triggered on enter key in input
 
 ## Evaluators
+
+```(words, parseState, appState) => ({value: [], parseState, cursor})```
 
 ### from [*selector*]
 
