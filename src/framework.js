@@ -108,6 +108,7 @@ Lingu.methods.divideArray = (words, separator) => {
 Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
   const rootParse = !prevParse;
   let mutations = [];
+  let stateEvents = [];
   //console.log('WORDS', words);
   const masterWord = words[0];
   if (!masterWord) {
@@ -136,6 +137,8 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
     // MUTABILITY AHEAD
     if (result.mutateState) {
       mutations.push(result.mutateState);
+    } else if (result.stateEvents) {
+      stateEvents = stateEvents.concat(result.stateEvents);
     }
     Object.assign(parseState, result.parseState);
     const mutations2 = Lingu.methods.parseActionLine(origWords.slice((result.cursor || 0) + 1), parseState, true);
@@ -144,8 +147,9 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
       mutations.forEach(m => {
         m(Lingu.space);
       });
-      if (mutations.length) {
-        Lingu.methods.render(Lingu.space);
+      Lingu.store.processEvents(stateEvents);
+      if (mutations.length || stateEvents.length) {
+        Lingu.methods.render(Lingu.store.getSpace());
       }
       localStorage.setItem('appStorage', JSON.stringify(Lingu.space));
       if (Lingu.programParseDone) {
@@ -404,6 +408,7 @@ Lingu.methods.init = (render) => {
       }).then(text => {
         const storage = (typeof localStorage !== 'undefined') ? localStorage.getItem('appStorage') : undefined;
         Lingu.firstRun = storage ? false : true;
+        Lingu.store = new LinguLocalStore();
         Lingu.space = Lingu.firstRun ? {} : JSON.parse(storage);
 
         Lingu.methods.parseProgram(text);

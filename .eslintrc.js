@@ -15,6 +15,7 @@ module.exports = {
     ],
     "globals": {
       "Lingu": true,
+      "LinguLocalStore": true,
       "it": true,
       "describe": true,
       "require": true,
