@@ -2,14 +2,16 @@
   "name": "lingu",
   "version": "0.0.1",
   "description": "meta-programming language",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.15.4"
+  },
   "devDependencies": {
     "eslint": "*",
     "eslint-plugin-react": "^7.1.0",
     "mocha": "*"
   },
   "scripts": {
-    "lint": "eslint src/*.js todomvc/*.js || true",
+    "pretest": "eslint src/*.js todomvc/*.js server.js || true",
     "test": "mocha src/*.spec.js"
   },
   "author": "Tautvilas <mecinskas@gmail.com>",
