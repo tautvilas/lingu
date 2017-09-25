@@ -8,11 +8,13 @@
   "devDependencies": {
     "eslint": "*",
     "eslint-plugin-react": "^7.1.0",
-    "mocha": "*"
+    "mocha": "*",
+    "selenium-webdriver": "^3.5.0"
   },
   "scripts": {
     "pretest": "eslint src/*.js todomvc/*.js server.js || true",
-    "test": "mocha src/*.spec.js"
+    "test": "mocha src/*.spec.js",
+    "e2e": "mocha first_test.js"
   },
   "author": "Tautvilas <mecinskas@gmail.com>",
   "license": "MPL-2.0"
