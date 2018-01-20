@@ -1,6 +1,5 @@
-var assert = require('assert'),
-
-webdriver = require('selenium-webdriver');
+const assert = require('assert');
+const webdriver = require('selenium-webdriver');
 
 const el = {
   newTodo: webdriver.By.className('new-todo'),
@@ -12,9 +11,12 @@ const el = {
   filters: webdriver.By.className('filterButton'),
   clear: webdriver.By.className('clearButton'),
   toggle: webdriver.By.className('toggleAllStatus'),
+  header: webdriver.By.tagName('h1'),
   todoItem: {
     remove: webdriver.By.className('itemDeletionButton'),
     checkBox: webdriver.By.className('itemCompletionButton'),
+    editField: webdriver.By.className('editField'),
+    text: webdriver.By.className('itemText')
   }
 };
 
@@ -27,13 +29,12 @@ describe('TodoMVC', function() {
   }
 
   before(async () => {
-    driver = new webdriver.Builder().
-    forBrowser('chrome').build();
+    driver = new webdriver.Builder().forBrowser('chrome').build();
     driver.navigate().to('http://localhost:8000/todomvc');
     $ = driver.findElement.bind(driver);
     $$ = driver.findElements.bind(driver);
     let todoInput = $(el.newTodo);
-    const value = await todoInput.getAttribute('value'); // needed for sync
+    await todoInput.getAttribute('value'); // needed for sync
   });
 
   it('should add a todo', async () => {
@@ -121,18 +122,72 @@ describe('TodoMVC', function() {
   });
 
   it('should edit item and save on enter', async() => {
+    const todos = await $$(el.todos);
+    assert.equal(todos.length, 3);
+    assert.equal(await todos[0].getText(), 'First TODO');
+    const editField = todos[0].findElement(el.todoItem.editField);
+    assert.equal(await editField.isDisplayed(), false);
+    await driver.actions().mouseMove(todos[0].findElement(el.todoItem.text)).doubleClick().perform();
+    assert.equal(await editField.isDisplayed(), true);
+    await driver.actions().sendKeys('changed item\n').perform();
+    assert.equal(await editField.isDisplayed(), false);
+    assert.equal(await todos[0].getText(), 'changed itemFirst TODO');
+    assert.equal((await $$(el.todos)).length, 3);
   });
 
   it('should edit item and save on focus out', async() => {
+    const todos = await $$(el.todos);
+    assert.equal(todos.length, 3);
+    assert.equal(await todos[1].getText(), 'Third TODO');
+    const editField = todos[1].findElement(el.todoItem.editField);
+    assert.equal(await editField.isDisplayed(), false);
+    await driver.actions().mouseMove(todos[1].findElement(el.todoItem.text)).doubleClick().perform();
+    assert.equal(await editField.isDisplayed(), true);
+    await driver.actions().sendKeys('changed ').perform();
+    await todos[0].click();
+    assert.equal(await editField.isDisplayed(), false);
+    assert.equal(await todos[1].getText(), 'changed Third TODO');
+    assert.equal((await $$(el.todos)).length, 3);
   });
 
   it('should delete item if trimmed value is only from spaces', async() => {
+    const todos = await $$(el.todos);
+    assert.equal(todos.length, 3);
+    assert.equal(await todos[2].getText(), 'Fifth TODO');
+    const editField = todos[2].findElement(el.todoItem.editField);
+    assert.equal(await editField.isDisplayed(), false);
+    await driver.actions().mouseMove(todos[2].findElement(el.todoItem.text)).doubleClick().perform();
+    assert.equal(await editField.isDisplayed(), true);
+    await editField.clear();
+    await editField.sendKeys('   ');
+    await $(el.header).click();
+    assert.equal((await $$(el.todos)).length, 2);
+    assert.equal(await $(el.items).getText(), 'changed itemFirst TODO\nchanged Third TODO');
   });
 
   it('should not change edited item if escape is pressed', async() => {
+    const todos = await $$(el.todos);
+    assert.equal(todos.length, 2);
+    assert.equal(await todos[1].getText(), 'changed Third TODO');
+    const editField = todos[1].findElement(el.todoItem.editField);
+    assert.equal(await editField.isDisplayed(), false);
+    await driver.actions().mouseMove(todos[1].findElement(el.todoItem.text)).doubleClick().perform();
+    assert.equal(await editField.isDisplayed(), true);
+    await editField.clear();
+    await editField.sendKeys('fancy new item');
+    await editField.sendKeys(webdriver.Key.ESCAPE);
+    assert.equal(await editField.isDisplayed(), false);
+    assert.equal((await $$(el.todos)).length, 2);
+    assert.equal(await $(el.items).getText(), 'changed itemFirst TODO\nchanged Third TODO');
   });
 
-  it('should add few more items and perist all changes after refresh', async() => {
+  it('should add and items and perist all changes after refresh', async() => {
+    addTodo('super new todo');
+    driver.navigate().refresh();
+    assert.equal((await $$(el.todos)).length, 3);
+    assert.equal(await $(el.items).getText(), 'changed itemFirst TODO\nchanged Third TODO\nsuper new todo');
+    assert.equal((await $$(el.completedTodos)).length, 2);
+    assert.equal(await $(el.footer).isDisplayed(), true);
   });
 
   after(() => {

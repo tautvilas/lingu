@@ -1,10 +1,11 @@
 module.exports = {
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
     },
     "extends": "eslint:recommended",
     "parserOptions": {
+        "ecmaVersion": 2017,
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
             "jsx": true
@@ -20,7 +21,9 @@ module.exports = {
       "describe": true,
       "require": true,
       "global": true,
-      "module": true
+      "module": true,
+      "before": true,
+      "after": true
     },
     "rules": {
         "indent": [
