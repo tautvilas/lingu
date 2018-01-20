@@ -6,9 +6,15 @@ const el = {
   newTodo: webdriver.By.className('new-todo'),
   items: webdriver.By.className('todo-list'),
   todos: webdriver.By.className('itemContainer'),
+  completedTodos: webdriver.By.className('completed'),
   footer: webdriver.By.className('footer'),
+  count: webdriver.By.className('todo-count'),
+  filters: webdriver.By.className('filterButton'),
+  clear: webdriver.By.className('clearButton'),
+  toggle: webdriver.By.className('toggleAllStatus'),
   todoItem: {
-    remove: webdriver.By.className('itemDeletionButton')
+    remove: webdriver.By.className('itemDeletionButton'),
+    checkBox: webdriver.By.className('itemCompletionButton'),
   }
 };
 
@@ -43,7 +49,7 @@ describe('TodoMVC', function() {
 
   it('should remove all todos and not show footer after that', async () => {
     assert.equal(await $(el.footer).isDisplayed(), true);
-    let todos = await $$(el.todos);
+    const todos = await $$(el.todos);
     assert.equal(todos.length, 2);
     const removeButton = await todos[1].findElement(el.todoItem.remove);
     assert.equal(await removeButton.isDisplayed(), false);
@@ -60,11 +66,73 @@ describe('TodoMVC', function() {
     await addTodo('Second TODO');
     await addTodo('Third TODO');
     await addTodo('Fourth TODO');
+    await addTodo('     ');
     await addTodo('Fifth TODO');
     assert.equal((await $$(el.todos)).length, 5);
     driver.navigate().refresh();
     assert.equal((await $$(el.todos)).length, 5);
     assert.equal(await $(el.items).getText(), 'First TODO\nSecond TODO\nThird TODO\nFourth TODO\nFifth TODO');
+  });
+
+  it('should mark completed items by pressing on checkbox and reflect items number', async() => {
+    const todos = await $$(el.todos);
+    assert.equal(await $(el.count).getText(), '5 items left');
+    assert.equal((await $$(el.completedTodos)).length, 0);
+    await(todos[1].findElement(el.todoItem.checkBox).click());
+    await(todos[3].findElement(el.todoItem.checkBox).click());
+    assert.equal((await $$(el.completedTodos)).length, 2);
+    await(todos[3].findElement(el.todoItem.checkBox).click());
+    assert.equal((await $$(el.completedTodos)).length, 1);
+    await(todos[3].findElement(el.todoItem.checkBox).click());
+    assert.equal(await $(el.count).getText(), '3 items left');
+  });
+
+  it('should perform filtering', async() => {
+    assert.equal((await $$(el.todos)).length, 5);
+    await (await $$(el.filters))[1].click();
+    assert.equal((await $$(el.todos)).length, 3);
+    await (await $$(el.filters))[2].click();
+    assert.equal((await $$(el.todos)).length, 2);
+    await (await $$(el.filters))[0].click();
+    assert.equal((await $$(el.todos)).length, 5);
+  });
+
+  it('should clear completed', async() => {
+    await (await $$(el.filters))[2].click();
+    assert.equal((await $$(el.todos)).length, 2);
+    await $(el.clear).click();
+    assert.equal((await $$(el.todos)).length, 0);
+    assert.equal(await $(el.footer).isDisplayed(), true);
+    await (await $$(el.filters))[0].click();
+    assert.equal((await $$(el.todos)).length, 3);
+    assert.equal(await $(el.items).getText(), 'First TODO\nThird TODO\nFifth TODO');
+  });
+
+  it('should toggle all status', async() => {
+    const todos = await $$(el.todos);
+    await(todos[1].findElement(el.todoItem.checkBox).click());
+    assert.equal((await $$(el.completedTodos)).length, 1);
+    await($(el.toggle)).click();
+    assert.equal((await $$(el.completedTodos)).length, 3);
+    await($(el.toggle)).click();
+    assert.equal((await $$(el.completedTodos)).length, 0);
+    await($(el.toggle)).click();
+    assert.equal((await $$(el.completedTodos)).length, 3);
+  });
+
+  it('should edit item and save on enter', async() => {
+  });
+
+  it('should edit item and save on focus out', async() => {
+  });
+
+  it('should delete item if trimmed value is only from spaces', async() => {
+  });
+
+  it('should not change edited item if escape is pressed', async() => {
+  });
+
+  it('should add few more items and perist all changes after refresh', async() => {
   });
 
   after(() => {
