@@ -112,7 +112,7 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
   //console.log('WORDS', words);
   const masterWord = words[0];
   if (!masterWord) {
-    return mutations;
+    return [mutations, stateEvents];
   }
   if (masterWord === 'on') {
     const arrays = Lingu.methods.divideArray(words.slice(1), ',');
@@ -139,15 +139,17 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
       mutations.push(result.mutateState);
     } else if (result.stateEvents) {
       stateEvents = stateEvents.concat(result.stateEvents);
+      //console.log('HERE', stateEvents, result.stateEvents);
     }
     Object.assign(parseState, result.parseState);
-    const mutations2 = Lingu.methods.parseActionLine(origWords.slice((result.cursor || 0) + 1), parseState, true);
-    mutations = mutations.concat(mutations2);
+    const childParseChanges = Lingu.methods.parseActionLine(origWords.slice((result.cursor || 0) + 1), parseState, true);
+    mutations = mutations.concat(childParseChanges[0]);
+    stateEvents = stateEvents.concat(childParseChanges[1]);
     if (rootParse) {
       mutations.forEach(m => {
         m(Lingu.space);
       });
-      Lingu.store.processEvents(stateEvents);
+      Lingu.store.processEvents(stateEvents, Lingu.space);
       if (mutations.length || stateEvents.length) {
         Lingu.methods.render(Lingu.store.getSpace());
       }
@@ -156,10 +158,10 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
         Lingu.methods.bindDomEventHandlers();
       }
     }
-    return mutations;
+    return [mutations, stateEvents];
   } else {
     console.error('unrecognized master word', masterWord); //eslint-disable-line no-console
-    return mutations;
+    return [mutations, stateEvents];
   }
 };
 
@@ -301,6 +303,7 @@ Lingu.methods.initContext = (c) => {
 };
 
 Lingu.query.one = (query, c) => {
+  //console.log(query, c);
   const context = Lingu.methods.initContext(c);
   const result = Lingu.methods.readSpace(context, Lingu.space, query);
   return result[0];
@@ -327,7 +330,8 @@ Lingu.methods.readSpace = (sp, space, query) => {
       i += 2;
       locations = locations.filter(l => {
         if (!l || !l[filter.property]) return false;
-        return l[filter.property].join() === filter.value;
+        const propVal = filter.property === '_id' ? l[filter.property] : l[filter.property].join();
+        return propVal === filter.value;
       });
       continue;
     }

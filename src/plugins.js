@@ -171,10 +171,7 @@ Lingu.plugins.with = (words, parseState) => {
   return {
     cursor: 1 + valueResult.cursor,
     parseState: {},
-    mutateState: s => {
-      s[construct.type][construct.id][prop] = valueResult.value;
-    },
-    stateEvents: [{type: 'update', query: `${construct.type} where id ${construct.id}`, property: prop, value: valueResult.value}]
+    stateEvents: [{type: 'update', query: `${construct.type} where _id ${construct.id}`, property: prop, value: valueResult.value}]
   };
 };
 
