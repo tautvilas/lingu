@@ -11,6 +11,12 @@ Lingu.handlers.change = (words) => {
   });
 };
 
+Lingu.handlers.everyEvent = (words) => {
+  Lingu.beforeEachHandlers.push(() => {
+    Lingu.methods.parseActionLine(words);
+  });
+};
+
 Lingu.handlers.click = (words) => {
   Lingu.domEventHandlers.push({
     selector: words[0],

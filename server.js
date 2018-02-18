@@ -7,6 +7,6 @@ app.use('/src', express.static('src'));
 app.use('/lib', express.static('lib'));
 
 app.listen(8000, () => {
-  console.log('Lingu server online'); //eslint-disable-line
+  console.log('Lingu server online on localhost:8000'); //eslint-disable-line
 });
 

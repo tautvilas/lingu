@@ -1,7 +1,7 @@
 function LinguLocalStore() {
   this.processEvents = function(events, space) {
     events.forEach(event => {
-      const object = Lingu.query.one('app ' + event.query);
+      const object = Lingu.query.one(Lingu.context.type + ' ' + event.query);
       object[event.property] = event.value;
     });
   }

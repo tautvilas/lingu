@@ -6,6 +6,7 @@ const Lingu = {
   translations: {},
   domEventHandlers: [],
   changeHandlers: {},
+  beforeEachHandlers: [],
   initHandlers: [],
   parseState: {},
   programParseDone: false,
@@ -115,6 +116,9 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
     return [mutations, stateEvents];
   }
   if (masterWord === 'on') {
+    Lingu.beforeEachHandlers.forEach(handler => {
+      handler();
+    });
     const arrays = Lingu.methods.divideArray(words.slice(1), ',');
     let constructs = arrays;
     if (arrays.length > 1) {

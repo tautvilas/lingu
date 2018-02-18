@@ -2,7 +2,8 @@
 #item title status
 #statusType title value
 
-context app
+on everyEvent
+  context app
 
 on firstRun
   add item
