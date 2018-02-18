@@ -108,12 +108,11 @@ Lingu.methods.divideArray = (words, separator) => {
 
 Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
   const rootParse = !prevParse;
-  let mutations = [];
   let stateEvents = [];
   //console.log('WORDS', words);
   const masterWord = words[0];
   if (!masterWord) {
-    return [mutations, stateEvents];
+    return stateEvents;
   }
   if (masterWord === 'on') {
     Lingu.beforeEachHandlers.forEach(handler => {
@@ -139,22 +138,16 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
     const origWords = words.concat([]);
     const result = Lingu.plugins[masterWord](words.slice(1), parseState, Lingu.space);
     // MUTABILITY AHEAD
-    if (result.mutateState) {
-      mutations.push(result.mutateState);
-    } else if (result.stateEvents) {
+    if (result.stateEvents) {
       stateEvents = stateEvents.concat(result.stateEvents);
       //console.log('HERE', stateEvents, result.stateEvents);
     }
     Object.assign(parseState, result.parseState);
     const childParseChanges = Lingu.methods.parseActionLine(origWords.slice((result.cursor || 0) + 1), parseState, true);
-    mutations = mutations.concat(childParseChanges[0]);
-    stateEvents = stateEvents.concat(childParseChanges[1]);
+    stateEvents = stateEvents.concat(childParseChanges);
     if (rootParse) {
-      mutations.forEach(m => {
-        m(Lingu.space);
-      });
       Lingu.store.processEvents(stateEvents, Lingu.space);
-      if (mutations.length || stateEvents.length) {
+      if (stateEvents.length) {
         Lingu.methods.render(Lingu.store.getSpace());
       }
       localStorage.setItem('appStorage', JSON.stringify(Lingu.space));
@@ -162,10 +155,10 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
         Lingu.methods.bindDomEventHandlers();
       }
     }
-    return [mutations, stateEvents];
+    return stateEvents;
   } else {
     console.error('unrecognized master word', masterWord); //eslint-disable-line no-console
-    return [mutations, stateEvents];
+    return stateEvents;
   }
 };
 
@@ -253,11 +246,11 @@ Lingu.methods.getElementContext = (target) => {
   }
 };
 
-Lingu.methods.responseObject = (cursor=0, parseState={}, mutateState=undefined) => {
+Lingu.methods.responseObject = (cursor=0, parseState={}, stateEvents=[]) => {
   return {
     cursor,
     parseState,
-    mutateState
+    stateEvents
   };
 };
 
