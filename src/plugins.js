@@ -89,16 +89,17 @@ Lingu.plugins.hide = (words, parseState) => {
 Lingu.plugins.context = (words) => {
   const abs = words[0];
   let id = Lingu.methods.uuid();
-  let mutateState = () => {};
+  let stateEvents = [];
   if (Object.keys(Lingu.space[abs]).length) {
     id = Object.keys(Lingu.space[abs])[0];
   } else {
-    mutateState = s => {
-      s[abs][id] = {
-        _type: abs,
-        _id: id
-      };
-    };
+    stateEvents.push({
+      type: 'init',
+      entity: {
+        type: abs,
+        id
+      }
+    });
   }
   Lingu.context = {
     type: abs,
@@ -106,7 +107,7 @@ Lingu.plugins.context = (words) => {
   };
   return {
     cursor: 1,
-    mutateState
+    stateEvents
   };
 };
 

@@ -27,6 +27,12 @@ function LinguLocalStore() {
           Lingu.space[appendTo.type][appendTo.id][abs].push({id: id});
         }
         Lingu.space[abs][id] = {_parent: appendTo, _id: id, _type: abs};
+      } else if (event.type === 'init') {
+        const entity = event.entity;
+        Lingu.space[entity.type][entity.id] = {
+          _type: entity.type,
+          _id: entity.id
+        };
       }
     });
   }
