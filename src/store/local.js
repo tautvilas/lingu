@@ -2,8 +2,16 @@ function LinguLocalStore() {
   this.processEvents = function(events, space) {
     events.forEach(event => {
       if (event.type === 'update') {
-        const object = Lingu.query.one(Lingu.context.type + ' ' + event.query);
-        object[event.property] = event.value;
+        const objects = Lingu.query.many(Lingu.context.type + ' ' + event.query);
+        objects.forEach(object => {
+          object[event.property] = event.value;
+        });
+      } else if (event.type === 'set') {
+        event.items.forEach(d => {
+          const target = Lingu.space[d._type][d._id];
+          target[event.property] = event.value;
+          Lingu.space[d._type][d._id] = Object.assign({}, target); // trigger change handlers
+        });
       } else if (event.type === 'remove') {
         event.items.forEach(c => {
           const parent = c._parent;

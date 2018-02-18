@@ -17,13 +17,7 @@ Lingu.plugins.set = (words, parseState, appState) => {
   return {
     parseState,
     cursor: 1 + evaluation.cursor,
-    mutateState: s => {
-      parseState.updateTo.forEach(d => {
-        const target = s[d._type][d._id];
-        target[prop] = evaluation.value;
-        s[d._type][d._id] = Object.assign({}, target); // trigger change handlers
-      });
-    }
+    stateEvents: [{type: 'set', items: parseState.updateTo, property: prop, value: evaluation.value}]
   };
 };
 
