@@ -16,6 +16,17 @@ function LinguLocalStore() {
           }
           delete Lingu.space[c._type][c._id];
         });
+      } else if (event.type === 'add') {
+        const appendTo = Lingu.context;
+        const id = event.item.id;
+        const abs = event.item.type;
+        if (appendTo) {
+          if (!Lingu.space[appendTo.type][appendTo.id][abs]) {
+            Lingu.space[appendTo.type][appendTo.id][abs] = [];
+          }
+          Lingu.space[appendTo.type][appendTo.id][abs].push({id: id});
+        }
+        Lingu.space[abs][id] = {_parent: appendTo, _id: id, _type: abs};
       }
     });
   }

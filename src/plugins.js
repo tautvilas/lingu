@@ -46,20 +46,10 @@ Lingu.plugins.add = (words) => {
   const id = Lingu.methods.uuid();
   return {
     parseState: {construct: {type: abs, id: id}},
-    mutateState: s => {
-      const appendTo = Lingu.context;
-      if (appendTo) {
-        if (!s[appendTo.type][appendTo.id][abs]) {
-          s[appendTo.type][appendTo.id][abs] = [];
-        }
-        s[appendTo.type][appendTo.id][abs].push({id: id});
-      }
-      /*
-      if (!s[parseState]) {
-        s[abs] = [];
-      }*/
-      s[abs][id] = {_parent: appendTo, _id: id, _type: abs};
-    },
+    stateEvents: [{
+      type: 'add',
+      item: {type: abs, id}
+    }],
     cursor: 1
   };
 };
