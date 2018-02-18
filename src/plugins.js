@@ -4,19 +4,10 @@ Lingu.plugins.remove = (words, parseState) => {
   return {
     parseState,
     cursor: 1,
-    mutateState: s => {
-      data.forEach(c => {
-        const parent = c._parent;
-        if (parent) {
-          const parentList = s[parent.type][parent.id][c._type];
-          const index = parentList.findIndex((v) => {return v.id === c._id;});
-          if (index !== -1) {
-            parentList.splice(index, 1);
-          }
-        }
-        delete s[c._type][c._id];
-      });
-    }
+    stateEvents: [{
+      type: 'remove',
+      items: data
+    }]
   };
 };
 
