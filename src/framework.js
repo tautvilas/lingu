@@ -179,10 +179,7 @@ Lingu.methods.normalizeLine = (line) => {
 
 Lingu.methods.parseLine = (line) => {
   //console.log('NORLINE', line);
-  if (line.startsWith('#')) {
-    Lingu.methods.parseSpaceDefinition(line.replace('#', ''));
-    return [];
-  } else if (line.startsWith('*')) {
+  if (line.startsWith('*')) {
     Lingu.methods.parseQueryDefinition(line);
   } else if (line.startsWith('~')) {
     Lingu.methods.parseLocalizationDefinition(line);
@@ -401,17 +398,17 @@ Lingu.methods.parseSelector = function (words, eventTarget) {
 
 Lingu.methods.init = (render) => {
   Lingu.methods.render = render;
+  let spaceResolver;
+  const spaceResolutionPromise = new Promise((resolve) => {
+    spaceResolver = resolve;
+  });
+
   [].slice.call(document.scripts).map((script) => {
     if (script.type === 'text/lingu') {
-      fetch(script.src).then(response => {
+      Promise.all([fetch(script.src), spaceResolutionPromise]).then(response => {
         //console.log(response));
-        return response.text();
+        return response[0].text();
       }).then(text => {
-        const storage = (typeof localStorage !== 'undefined') ? localStorage.getItem('appStorage') : undefined;
-        Lingu.firstRun = storage ? false : true;
-        Lingu.store = new LinguLocalStore();
-        Lingu.space = Lingu.firstRun ? {} : JSON.parse(storage);
-
         Lingu.methods.parseProgram(text);
         Lingu.programParseDone = true;
         Lingu.methods.bindDomEventHandlers();
@@ -423,6 +420,22 @@ Lingu.methods.init = (render) => {
         } else {
           Lingu.initHandlers.forEach(handler => handler());
         }
+      });
+    } else if (script.type === 'text/spacedef') {
+      const storage = (typeof localStorage !== 'undefined') ? localStorage.getItem('appStorage') : undefined;
+      Lingu.firstRun = storage ? false : true;
+      Lingu.space = Lingu.firstRun ? {} : JSON.parse(storage);
+      Lingu.store = new LinguLocalStore();
+
+      fetch(script.src).then(response => {
+        //console.log(response));
+        return response.text();
+      }).then(text => {
+        const lines = text.split('\n');
+        lines.forEach(line => {
+          Lingu.methods.parseSpaceDefinition(Lingu.methods.normalizeLine(line));
+        });
+        spaceResolver();
       });
     }
   });
