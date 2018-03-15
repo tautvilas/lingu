@@ -80,12 +80,12 @@ Lingu.plugins.hide = (words, parseState) => {
   return Lingu.methods.responseObject(cursor);
 };
 
-Lingu.plugins.context = (words) => {
+Lingu.plugins.context = (words, parseState, space) => {
   const abs = words[0];
   let id = Lingu.methods.uuid();
   let stateEvents = [];
-  if (Object.keys(Lingu.space[abs]).length) {
-    id = Object.keys(Lingu.space[abs])[0];
+  if (Object.keys(space[abs]).length) {
+    id = Object.keys(space[abs])[0];
   } else {
     stateEvents.push({
       type: 'init',
