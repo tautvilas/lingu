@@ -141,11 +141,11 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
     const childParseChanges = Lingu.methods.parseActionLine(origWords.slice((result.cursor || 0) + 1), parseState, true);
     stateEvents = stateEvents.concat(childParseChanges);
     if (rootParse) {
-      Lingu.store.processEvents(stateEvents, Lingu.space);
+      Lingu.store.processEvents(stateEvents);
       if (stateEvents.length) {
         Lingu.methods.render(Lingu.store.getSpace());
       }
-      localStorage.setItem('appStorage', JSON.stringify(Lingu.space));
+      Lingu.store.persistSpace();
       if (Lingu.programParseDone) {
         Lingu.methods.bindDomEventHandlers();
       }

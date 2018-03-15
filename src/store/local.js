@@ -1,5 +1,5 @@
 function LinguLocalStore() {
-  this.processEvents = function(events, space) {
+  this.processEvents = function(events) {
     events.forEach(event => {
       if (event.type === 'update') {
         const objects = Lingu.query.many(Lingu.context.type + ' ' + event.query);
@@ -55,6 +55,10 @@ function LinguLocalStore() {
   }
 
   this.getSpace = function() {
-    return Lingu.space;
+    return JSON.parse(JSON.stringify(Lingu.space));
+  }
+
+  this.persistSpace = function() {
+    localStorage.setItem('appStorage', JSON.stringify(Lingu.space));
   }
 }
