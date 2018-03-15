@@ -1,7 +1,7 @@
 Lingu.react = {};
 Lingu.react.render = (query, Comp, c) => {
   const context = Lingu.methods.initContext(c);
-  const data = Lingu.methods.readSpace(context, Lingu.space, query);
+  const data = Lingu.methods.readSpace(context, Lingu.store.getSpace(), query);
   if (!Comp) {
     return data.join(' ');
   } else {
