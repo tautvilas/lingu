@@ -45,6 +45,15 @@ function LinguLocalStore() {
     });
   }
 
+  this.initiateSpaceDef = function(type) {
+    if (!Lingu.space[type]) {
+      Lingu.space[type] = Lingu.methods.watchObject({}, type);
+    } else {
+      Lingu.space[type] = Lingu.methods.watchObject(Lingu.space[type], type);
+    }
+    Lingu.changeHandlers[type] = [];
+  }
+
   this.getSpace = function() {
     return Lingu.space;
   }

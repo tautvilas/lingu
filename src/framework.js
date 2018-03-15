@@ -80,12 +80,7 @@ Lingu.methods.parseSpaceDefinition = (line) => {
     acc[val] = {};
     return acc;
   }, {});
-  if (!Lingu.space[words[0]]) {
-    Lingu.space[words[0]] = Lingu.methods.watchObject({}, words[0]);
-  } else {
-    Lingu.space[words[0]] = Lingu.methods.watchObject(Lingu.space[words[0]], words[0]);
-  }
-  Lingu.changeHandlers[words[0]] = [];
+  Lingu.store.initiateSpaceDef(words[0]);
   //console.log('SPACEDEF', JSON.stringify(Lingu.spaceDefs));
 };
 
