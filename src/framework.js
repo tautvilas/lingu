@@ -103,6 +103,7 @@ Lingu.methods.divideArray = (words, separator) => {
 
 Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
   const rootParse = !prevParse;
+  const space = Lingu.store.getSpace();
   let stateEvents = [];
   //console.log('WORDS', words);
   const masterWord = words[0];
@@ -131,7 +132,7 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
     });
   } else if (Lingu.plugins[masterWord]) {
     const origWords = words.concat([]);
-    const result = Lingu.plugins[masterWord](words.slice(1), parseState, Lingu.space);
+    const result = Lingu.plugins[masterWord](words.slice(1), parseState, space);
     // MUTABILITY AHEAD
     if (result.stateEvents) {
       stateEvents = stateEvents.concat(result.stateEvents);
@@ -234,7 +235,7 @@ Lingu.methods.getElementContext = (target) => {
   let info;
   if (path) {
     info = path.split(' ');
-    return Lingu.space[info[0]][info[1]];
+    return Lingu.store.getSpace()[info[0]][info[1]];
   }
 };
 
@@ -281,7 +282,7 @@ Lingu.methods.evalExpression = (words, parseState, appState) => {
 Lingu.methods.initContext = (c) => {
   let context;
   if (!c) {
-    context = [Lingu.space];
+    context = [Lingu.store.getSpace()];
   } else if (c.constructor !== Array) {
     context = [c];
   } else {
@@ -294,7 +295,7 @@ Lingu.methods.initContext = (c) => {
 Lingu.query.one = (query, c) => {
   //console.log(query, c);
   const context = Lingu.methods.initContext(c);
-  const result = Lingu.methods.readSpace(context, Lingu.space, query);
+  const result = Lingu.methods.readSpace(context, Lingu.store.getSpace(), query);
   return result[0];
 };
 
@@ -355,16 +356,17 @@ Lingu.methods.readSpace = (sp, space, query) => {
 };
 
 Lingu.methods.parseQuery = (target, eventTarget) => {
+  const space = Lingu.store.getSpace();
   let c;
   if (target === 'selected') {
     c = [Lingu.methods.getElementContext(eventTarget)];
     return c;
   } else {
     const query = Lingu.queries[target] || [target];
-    const start = query[0] === 'selected' ? [Lingu.methods.getElementContext(eventTarget)] : [Lingu.space];
+    const start = query[0] === 'selected' ? [Lingu.methods.getElementContext(eventTarget)] : [space];
     const queryWords = query[0] === 'selected' ? query.slice(1) : query;
     //console.log(start, queryWords);
-    const result = Lingu.methods.readSpace(start, Lingu.space, queryWords.join(' '));
+    const result = Lingu.methods.readSpace(start, space, queryWords.join(' '));
     //console.warn('found query match', start, result, queryWords);
     return result;
   }
@@ -408,7 +410,7 @@ Lingu.methods.init = (render) => {
         Lingu.programParseDone = true;
         Lingu.methods.bindDomEventHandlers();
 
-        Lingu.methods.render(Lingu.space);
+        Lingu.methods.render(Lingu.store.getSpace());
 
         if (!Lingu.firstRun) {
           Lingu.methods.triggerChangeHandlers();
@@ -417,9 +419,6 @@ Lingu.methods.init = (render) => {
         }
       });
     } else if (script.type === 'text/spacedef') {
-      const storage = (typeof localStorage !== 'undefined') ? localStorage.getItem('appStorage') : undefined;
-      Lingu.firstRun = storage ? false : true;
-      Lingu.space = Lingu.firstRun ? {} : JSON.parse(storage);
       Lingu.store = new LinguLocalStore();
 
       fetch(script.src).then(response => {

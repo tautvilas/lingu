@@ -1,4 +1,8 @@
 function LinguLocalStore() {
+  const storage = (typeof localStorage !== 'undefined') ? localStorage.getItem('appStorage') : undefined;
+  Lingu.firstRun = storage ? false : true;
+  Lingu.space = Lingu.firstRun ? {} : JSON.parse(storage);
+
   this.processEvents = function(events) {
     events.forEach(event => {
       if (event.type === 'update') {
