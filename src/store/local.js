@@ -1,4 +1,26 @@
 function LinguLocalStore() {
+  this.changeHandlers = {};
+
+  this.watchObject = function(obj, prop) {
+    const changeHandlers = this.changeHandlers;
+    return new Proxy(obj, {
+      set(target, key, value) {
+        target[key] = value;
+        const changers = changeHandlers[prop];
+        if (changers) {
+          changers.forEach(handler => handler());
+        }
+      },
+      deleteProperty(target, key) {
+        delete target[key];
+        const changers = changeHandlers[prop];
+        if (changers) {
+          changers.forEach(handler => handler());
+        }
+      }
+    });
+  };
+
   const storage = (typeof localStorage !== 'undefined') ? localStorage.getItem('appStorage') : undefined;
   Lingu.firstRun = storage ? false : true;
   Lingu.space = Lingu.firstRun ? {} : JSON.parse(storage);
@@ -53,11 +75,11 @@ function LinguLocalStore() {
 
   this.initiateSpaceDef = function(type) {
     if (!Lingu.space[type]) {
-      Lingu.space[type] = Lingu.methods.watchObject({}, type);
+      Lingu.space[type] = this.watchObject({}, type);
     } else {
-      Lingu.space[type] = Lingu.methods.watchObject(Lingu.space[type], type);
+      Lingu.space[type] = this.watchObject(Lingu.space[type], type);
     }
-    Lingu.changeHandlers[type] = [];
+    this.changeHandlers[type] = [];
   }
 
   this.getSpace = function() {
@@ -69,6 +91,15 @@ function LinguLocalStore() {
   }
 
   this.subscribe = function(target, callback) {
-    Lingu.changeHandlers[target].push(callback);
+    this.changeHandlers[target].push(callback);
+  }
+
+  this.initDone = function() {
+    Object.keys(this.changeHandlers).forEach((handler) => {
+      //console.log(handler, space[handler], changeHandlers[handler]);
+      if (Lingu.space[handler] && Object.keys(Lingu.space[handler]).length) {
+        this.changeHandlers[handler].forEach(handler => handler());
+      }
+    });
   }
 }

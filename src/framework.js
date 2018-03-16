@@ -5,7 +5,6 @@ const Lingu = {
   queries: {},
   translations: {},
   domEventHandlers: [],
-  changeHandlers: {},
   beforeEachHandlers: [],
   initHandlers: [],
   parseState: {},
@@ -16,32 +15,6 @@ const Lingu = {
   plugins: {},
   evaluators: {},
   handlers: {}
-};
-
-Lingu.methods.watchObject = (obj, prop) => new Proxy(obj, {
-  set(target, key, value) {
-    target[key] = value;
-    const changers = Lingu.changeHandlers[prop];
-    if (changers) {
-      changers.forEach(handler => handler());
-    }
-  },
-  deleteProperty(target, key) {
-    delete target[key];
-    const changers = Lingu.changeHandlers[prop];
-    if (changers) {
-      changers.forEach(handler => handler());
-    }
-  }
-});
-
-Lingu.methods.triggerChangeHandlers = () => {
-  Object.keys(Lingu.changeHandlers).forEach((handler) => {
-    //console.log(handler, space[handler], changeHandlers[handler]);
-    if (Lingu.space[handler] && Object.keys(Lingu.space[handler]).length) {
-      Lingu.changeHandlers[handler].forEach(handler => handler());
-    }
-  });
 };
 
 Lingu.methods.bindDomEventHandlers = () => {
@@ -413,7 +386,7 @@ Lingu.methods.init = (render) => {
         Lingu.methods.render(Lingu.store.getSpace());
 
         if (!Lingu.firstRun) {
-          Lingu.methods.triggerChangeHandlers();
+          Lingu.store.initDone();
         } else {
           Lingu.initHandlers.forEach(handler => handler());
         }
