@@ -8,7 +8,9 @@ function LinguLocalStore() {
       if (event.type === 'update') {
         const objects = Lingu.query.many(Lingu.context.type + ' ' + event.query);
         objects.forEach(object => {
-          object[event.property] = event.value;
+          const target = Lingu.space[object._type][object._id];
+          target[event.property] = event.value;
+          Lingu.space[object._type][object._id] = Object.assign({}, target); // trigger change handlers
         });
       } else if (event.type === 'set') {
         event.items.forEach(d => {
@@ -64,5 +66,9 @@ function LinguLocalStore() {
 
   this.persistSpace = function() {
     localStorage.setItem('appStorage', JSON.stringify(Lingu.space));
+  }
+
+  this.subscribe = function(target, callback) {
+    Lingu.changeHandlers[target].push(callback);
   }
 }

@@ -6,7 +6,7 @@ Lingu.handlers.firstRun = (words) => {
 
 Lingu.handlers.change = (words) => {
   const target = words[0];
-  Lingu.changeHandlers[target].push(() => {
+  Lingu.store.subscribe(target, () => {
     Lingu.methods.parseActionLine(words.slice(1));
   });
 };

@@ -301,7 +301,7 @@ Lingu.query.one = (query, c) => {
 
 Lingu.query.many = (query, c) => {
   const context = Lingu.methods.initContext(c);
-  const result = Lingu.methods.readSpace(context, Lingu.space, query);
+  const result = Lingu.methods.readSpace(context, Lingu.store.getSpace(), query);
   return result;
 };
 
