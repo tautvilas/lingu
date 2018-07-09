@@ -130,3 +130,19 @@ converts *query* result to value
 # Extending the language
 
 You can extend language by adding your own custom plugins, evaluators and handlers to `Lingu.plugins`, `Lingu.evaluators` and `Lingu.handlers`.
+
+# Running unit tests
+
+```
+$ npm install
+$ npm run test
+```
+
+# Running e2e tests
+
+```
+$ npm install
+$ node server.js
+$ java -jar selenium-standalone.jar
+$ npm run e2e
+```
