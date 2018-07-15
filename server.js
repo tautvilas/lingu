@@ -2,7 +2,7 @@ var express = require('express');
 
 var app = express();
 
-app.use('/todomvc', express.static('todomvc'));
+app.use('/', express.static('examples'));
 app.use('/src', express.static('src'));
 app.use('/lib', express.static('lib'));
 
