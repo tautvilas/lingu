@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Ratings app with Lingu</title>
+    <!--
+    <script src="https://unpkg.com/react@15/dist/react.min.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js" charset="utf-8"></script>
+    -->
+    <script src="../lib/react.min.js"></script>
+    <script src="../lib/react-dom.min.js"></script>
+    <script src="../lib/babel.min.js" charset="utf-8"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="app.css">
+
+    <script type="text/babel" charset="utf-8" src="./screens/login.jsx"></script>
+    <script type="text/spacedef" src="structure.spc"></script>
+    <script type="text/lingu" src="./screens/login.lgu"></script>
+
+    <script type="text/javascript">var module = {};</script>
+    <script type="text/javascript" src="../src/framework.js"></script>
+    <script type="text/javascript" src="../src/store/local.js"></script>
+    <script type="text/javascript" src="../src/plugins.js"></script>
+    <script type="text/javascript" src="../src/evaluators.js"></script>
+    <script type="text/javascript" src="../src/handlers.js"></script>
+    <script type="text/babel" src="../src/lingu-react.js"></script>
+
+    <script type="text/babel">
+      Lingu.methods.init(() => {
+        console.log('RENDER');
+        ReactDOM.render(
+          (<div>{Lingu.react.render('app', Login)}</div>),
+          document.getElementById('root')
+        );
+      });
+    </script>
+  </head>
+  <body>
+    <div id='root'></div>
+  </body>
+</html>

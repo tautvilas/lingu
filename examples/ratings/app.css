@@ -1,0 +1,16 @@
+.clearer {
+  clear: both;
+}
+
+.loginScreen .loginBox {
+  border: 1px solid black;
+  width: 300px;
+  padding: 20px;
+  line-height: 2em;
+}
+
+.loginScreen input {
+  float: right;
+  margin-top: 5px;
+}
+
