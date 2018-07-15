@@ -381,9 +381,9 @@ Lingu.methods.init = (render) => {
       }).then(text => {
         Lingu.methods.parseProgram(text);
         Lingu.programParseDone = true;
-        Lingu.methods.bindDomEventHandlers();
 
         Lingu.methods.render(Lingu.store.getSpace());
+        Lingu.methods.bindDomEventHandlers();
 
         if (!Lingu.firstRun) {
           Lingu.store.initDone();

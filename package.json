@@ -12,9 +12,9 @@
     "selenium-webdriver": "^3.5.0"
   },
   "scripts": {
-    "pretest": "eslint src/*.js todomvc/*.js server.js || true",
+    "pretest": "eslint src/*.js examples/**/*.js server.js || true",
     "test": "mocha src/*.spec.js",
-    "e2e": "mocha todomvc/e2e.js"
+    "e2e": "mocha examples/todomvc/e2e.js"
   },
   "author": "Tautvilas <mecinskas@gmail.com>",
   "license": "MPL-2.0"
