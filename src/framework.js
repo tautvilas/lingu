@@ -117,7 +117,7 @@ Lingu.methods.parseActionLine = (words, parseState={event: {}}, prevParse) => {
     if (rootParse) {
       Lingu.store.processEvents(stateEvents);
       if (stateEvents.length) {
-        Lingu.methods.render(Lingu.store.getSpace());
+        Lingu.methods.render(Lingu.store.getSpace(), Lingu.activeScreen);
       }
       Lingu.store.persistSpace();
       if (Lingu.programParseDone) {
@@ -366,8 +366,10 @@ Lingu.methods.parseSelector = function (words, eventTarget) {
   return {cursor, elements};
 };
 
-Lingu.methods.init = (render) => {
+Lingu.methods.init = (render, mainScreen) => {
   Lingu.methods.render = render;
+  Lingu.activeScreen = mainScreen;
+
   let spaceResolver;
   const spaceResolutionPromise = new Promise((resolve) => {
     spaceResolver = resolve;
@@ -382,7 +384,7 @@ Lingu.methods.init = (render) => {
         Lingu.methods.parseProgram(text);
         Lingu.programParseDone = true;
 
-        Lingu.methods.render(Lingu.store.getSpace());
+        Lingu.methods.render(Lingu.store.getSpace(), Lingu.activeScreen);
         Lingu.methods.bindDomEventHandlers();
 
         if (!Lingu.firstRun) {

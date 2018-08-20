@@ -17,7 +17,7 @@
 
     <script type="text/babel" charset="utf-8" src="./screens/login.jsx"></script>
     <script type="text/spacedef" src="structure.spc"></script>
-    <script type="text/lingu" src="./screens/login.lgu"></script>
+    <script type="text/lingu" src="./screens/login.lgu" screen="LoginScreen"></script>
 
     <script type="text/javascript">var module = {};</script>
     <script type="text/javascript" src="../src/framework.js"></script>
@@ -25,16 +25,18 @@
     <script type="text/javascript" src="../src/plugins.js"></script>
     <script type="text/javascript" src="../src/evaluators.js"></script>
     <script type="text/javascript" src="../src/handlers.js"></script>
+    <script type="text/javascript" src="./plugins.js"></script>
     <script type="text/babel" src="../src/lingu-react.js"></script>
 
     <script type="text/babel">
-      Lingu.methods.init(() => {
-        console.log('RENDER');
+      Lingu.methods.init((space, screenId) => {
+        console.log('RENDER', screenId);
+        const Component = window[screenId];
         ReactDOM.render(
-          (<div>{Lingu.react.render('app', Login)}</div>),
+          (<div>{Lingu.react.render('app', Component)}</div>),
           document.getElementById('root')
         );
-      });
+      }, 'Login');
     </script>
   </head>
   <body>
