@@ -7,7 +7,7 @@ and [intentional programming](https://en.wikipedia.org/wiki/Intentional_programm
 
 # Example usage
 
-Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/todomvc).
+Check out TodoMVC app implemetation with Lingu [here](https://github.com/tautvilas/lingu/tree/master/examples/todomvc).
 
 # Lingu in a nutshell
 
