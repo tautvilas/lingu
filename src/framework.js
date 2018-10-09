@@ -183,7 +183,7 @@ Lingu.methods.parseProgram = (text) => {
       subroutines[currentSubroutine].push(normalized);
     }
   });
-  //console.log('SUBROUTINES', subroutines);
+  console.log('SUBROUTINES', subroutines);
   Lingu.methods.parseSubroutines(subroutines);
 };
 

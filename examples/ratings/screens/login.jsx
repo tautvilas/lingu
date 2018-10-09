@@ -1,4 +1,4 @@
-function Login(props) { //eslint-disable-line no-unused-vars
+function LoginScreen(props) { //eslint-disable-line no-unused-vars
   return (
     <section className="loginScreen" {...props.attributes}>
       <h1>Welcome to awesome ratings community!</h1>
