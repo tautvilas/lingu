@@ -183,7 +183,7 @@ Lingu.methods.parseProgram = (text) => {
       subroutines[currentSubroutine].push(normalized);
     }
   });
-  console.log('SUBROUTINES', subroutines);
+  //console.log('SUBROUTINES', subroutines);
   Lingu.methods.parseSubroutines(subroutines);
 };
 
@@ -366,6 +366,28 @@ Lingu.methods.parseSelector = function (words, eventTarget) {
   return {cursor, elements};
 };
 
+Lingu.methods.changeScreen = (screenId) => {
+  Lingu.activeScreen = screenId;
+  // TODO: do proper dom unbind
+  Lingu.domEventHandlers = [];
+  Lingu.beforeEachHandlers = [];
+  Lingu.queries = {};
+  Lingu.translations = {};
+  [].slice.call(document.scripts).map((script) => {
+    const screenAttr = script.attributes.screen;
+    if (script.type === 'text/lingu' && screenAttr && screenAttr.value == screenId) {
+      fetch(script.src).then(response => {
+        Lingu.methods.print('Load script ' + script.src);
+        return response.text();
+      }).then(text => {
+        Lingu.methods.parseProgram(text);
+        Lingu.methods.render(Lingu.store.getSpace(), Lingu.activeScreen);
+        Lingu.methods.bindDomEventHandlers();
+      });
+    }
+  });
+};
+
 Lingu.methods.init = (render, mainScreen) => {
   Lingu.methods.render = render;
   Lingu.activeScreen = mainScreen;
@@ -374,12 +396,21 @@ Lingu.methods.init = (render, mainScreen) => {
   const spaceResolutionPromise = new Promise((resolve) => {
     spaceResolver = resolve;
   });
+  spaceResolutionPromise.then(() => {
+    Lingu.methods.print('Framework initialized');
+  });
 
   [].slice.call(document.scripts).map((script) => {
     if (script.type === 'text/lingu') {
       Promise.all([fetch(script.src), spaceResolutionPromise]).then(response => {
         //console.log(response));
-        return response[0].text();
+        const screentAttr = script.attributes.screen;
+        if (mainScreen && screentAttr && screentAttr.value !== mainScreen) {
+          return '';
+        } else {
+          Lingu.methods.print('Load script ' + script.src);
+          return response[0].text();
+        }
       }).then(text => {
         Lingu.methods.parseProgram(text);
         Lingu.programParseDone = true;
@@ -413,6 +444,4 @@ Lingu.methods.init = (render, mainScreen) => {
 module.exports = {
   readSpace: Lingu.methods.readSpace
 };
-
-Lingu.methods.print('framework loaded');
 

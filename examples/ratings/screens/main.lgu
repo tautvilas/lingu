@@ -1,18 +1,18 @@
-on everyEvent
-  context app
-  if not authorized user
-    open loginScreen
+!on everyEvent
+!  context app
+!  if not authorized user
+!    open loginScreen
 
-on click addNewItem
-  open newItemScreen
+!on click addNewItem
+!  open newItemScreen
 
-on enter search
-  open searchResultsSreen with query from target
+!on enter search
+!  open searchResultsSreen with query from target
 
-on type search
-  if more 3 length search
-  display searchResults with query from target
+!on type search
+!  if more 3 length search
+!  display searchResults with query from target
 
-on click searchResult
-  open itemScreen with item target
+!on click searchResult
+!  open itemScreen with item target
 

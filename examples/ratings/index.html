@@ -16,8 +16,10 @@
     <link rel="stylesheet" type="text/css" href="app.css">
 
     <script type="text/babel" charset="utf-8" src="./screens/login.jsx"></script>
+    <script type="text/babel" charset="utf-8" src="./screens/main.jsx"></script>
     <script type="text/spacedef" src="structure.spc"></script>
     <script type="text/lingu" src="./screens/login.lgu" screen="LoginScreen"></script>
+    <script type="text/lingu" src="./screens/main.lgu" screen="MainScreen"></script>
 
     <script type="text/javascript">var module = {};</script>
     <script type="text/javascript" src="../src/framework.js"></script>
@@ -30,8 +32,8 @@
 
     <script type="text/babel">
       Lingu.methods.init((space, screenId) => {
-        console.log('RENDER', screenId);
         const Component = window[screenId];
+        console.log('RENDER', screenId);
         ReactDOM.render(
           (<div>{Lingu.react.render('app', Component)}</div>),
           document.getElementById('root')
