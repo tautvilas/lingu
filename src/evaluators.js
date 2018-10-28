@@ -22,7 +22,7 @@ Lingu.evaluators.empty = (words, parseState) => {
 
 Lingu.evaluators.is = (words, parseState) => {
   const comp1 = Lingu.methods.parseQuery(words[0], parseState.event.target);
-  const comp2 = Lingu.methods.evalExpression(words.slice(1));
+  const comp2 = Lingu.methods.evalExpression(words.slice(1), parseState);
   const result = comp1.map(next => {
     return next === comp2.value[0];
   });

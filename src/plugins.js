@@ -121,6 +121,9 @@ Lingu.plugins.else = (words, parseState) => {
 
 Lingu.plugins.if = (words, parseState, appState) => {
   const result = Lingu.methods.evalExpression(words, parseState, appState);
+  if (!result.value.length) {
+    console.error('If condition check on empty value'); //eslint-disable-line
+  }
   const resultValue = result.value.reduce((prev, next) => {
     return prev && next;
   }, true);

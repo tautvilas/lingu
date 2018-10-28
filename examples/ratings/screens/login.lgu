@@ -1,2 +1,24 @@
-on click loginButton open MainScreen
+on everyEvent
+  context app
+
+on firstRun
+  add user
+    with username username1
+    with password password1
+  add user
+    with username username2
+    with password password2
+
+on click loginButton
+  if not empty loginInput
+    if is userPassword from passwordInput
+      update loggedInUser set username from usernameInput
+      open MainScreen
+
+~username1 tom
+~password1 secret
+~username2 jhon
+~password2 12345
+
+*userPassword app user where username tom password
 

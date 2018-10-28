@@ -267,12 +267,14 @@ Lingu.methods.initContext = (c) => {
 
 Lingu.query.one = (query, c) => {
   //console.log(query, c);
+  // console.log('QUERY ONE', query);
   const context = Lingu.methods.initContext(c);
   const result = Lingu.methods.readSpace(context, Lingu.store.getSpace(), query);
   return result[0];
 };
 
 Lingu.query.many = (query, c) => {
+  // console.log('QUERY MANY', query);
   const context = Lingu.methods.initContext(c);
   const result = Lingu.methods.readSpace(context, Lingu.store.getSpace(), query);
   return result;
@@ -324,6 +326,7 @@ Lingu.methods.readSpace = (sp, space, query) => {
     //console.log(newLocations, word);
     locations = newLocations;
   }
+  // console.log('READ SPACE', query, locations);
   return locations;
   // TODO add non failing way to read data from state
 };
