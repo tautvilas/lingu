@@ -7,14 +7,14 @@ Check out [live demo](https://tautvilas.github.io/lingu/todomvc/) of the app.
 ## Domain logic code
 
 ```
-!Data structure definitions in format [#object property property ...]
+!!! Data structure definitions in format [#object property property ...] !!!
 #app item statusFilter statusType
 #item title status
 #statusType title value
 
 context app
 
-!Event handlers
+!!! Event handlers !!!
 
 on firstRun
   add item
@@ -75,7 +75,7 @@ on change item
     show clearButton
   else hide clearButton
 
-!Data query aliases
+!!! Data query aliases !!!
 
 *selectedStatus selected status
 *selectedTitle selected title
@@ -83,7 +83,7 @@ on change item
 *doingItems app item where status doing
 *allItems app item
 
-!Text translations
+!!! Text translations !!!
 
 ~todo.first.item This is your first task
 ~status.all All
