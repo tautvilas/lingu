@@ -1,5 +1,7 @@
 on everyEvent
   context app
+  if loggedInUser
+    open MainScreen
 
 on firstRun
   add user
@@ -12,7 +14,7 @@ on firstRun
 on click loginButton
   if not empty loginInput
     if is userPassword from passwordInput
-      update loggedInUser set username from usernameInput
+      remember loggedInUser with username from usernameInput
       open MainScreen
 
 ~username1 tom

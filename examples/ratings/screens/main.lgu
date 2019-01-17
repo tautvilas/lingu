@@ -1,7 +1,7 @@
-!on everyEvent
-!  context app
-!  if not authorized user
-!    open loginScreen
+on everyEvent
+  context app
+  if not loggedInUser
+    open loginScreen
 
 !on click addNewItem
 !  open newItemScreen
