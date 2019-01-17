@@ -22,7 +22,7 @@ Each action sentence is constructed out of words. Each word is either plugin, ha
 
 ## Authors
 
-* [Tautvilas Mecinskas](https://github.com/tautvilas/) [@tautvilas](https://twitter.com/TautviIas)
+* [Tautvilas Mecinskas](https://github.com/tautvilas/) [@tautvilas](https://twitter.com/Tautvilas)
 
 # Language components
 
